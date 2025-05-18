@@ -130,11 +130,12 @@ const title = ref<string>("一个现代化的Redis数据库管理工具")
   align-items: center;
   gap: 0.5rem;
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: bolder;
+  color: var(--primary-color-light);
 }
 
 .card-content {
   padding: 1rem 0;
-  color: var(--el-text-color-secondary);
+  color: var(--primary-color-dark);
 }
 </style>

@@ -35,6 +35,17 @@ const formRef = ref()
 // 对话框可见性
 const dialogVisible = ref(false)
 
+//断开Redis连接;
+
+const stopRedisConnect = (connection: RedisConnection) => {
+  // 这里将来会实现实际的连接逻辑
+  connectionStore.setCurrentConnection('null')
+  connectionStore.updateConnectionStatus(connection.id, false)
+  ElMessage({
+    type: 'success',
+    message: `已断开 ${connection.name}的连接`
+  })
+}
 // 添加新连接
 const addConnection = async () => {
   if (!formRef.value) return
@@ -114,16 +125,18 @@ const connectToRedis = (connection: RedisConnection) => {
           <div class="connection-actions">
             <el-button
                 v-if="!conn.isConnected"
-                type="primary"
+                type="success"
                 size="small"
                 @click="connectToRedis(conn)"
             >
+              <!--         todo     后续需要修改为当前用户一次性只能连接一台Redis实例-->
               连接
             </el-button>
             <el-button
                 v-else
                 type="warning"
                 size="small"
+                @click="stopRedisConnect(conn)"
             >
               断开
             </el-button>
@@ -146,8 +159,10 @@ const connectToRedis = (connection: RedisConnection) => {
       </el-card>
     </div>
 
+
     <!-- 添加连接对话框 -->
     <el-dialog
+        style="padding: 15px"
         v-model="dialogVisible"
         title="添加Redis连接"
         width="500px"
@@ -184,8 +199,9 @@ const connectToRedis = (connection: RedisConnection) => {
       </el-form>
 
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="addConnection">添加</el-button>
+        <el-button @click="dialogVisible = false" style="width: 100px">取消</el-button>
+        <el-button type="warning">test Connection(测试连接)</el-button>
+        <el-button type="primary" @click="addConnection" style="width: 100px">添加</el-button>
       </template>
     </el-dialog>
   </div>
@@ -238,6 +254,7 @@ const connectToRedis = (connection: RedisConnection) => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: var(--primary-color);
 }
 
 .connection-title h3 {
@@ -250,6 +267,8 @@ const connectToRedis = (connection: RedisConnection) => {
 }
 
 .connection-details {
+  font-weight: bolder;
+  font-size: larger;
   color: var(--el-text-color-secondary);
 }
 

@@ -139,6 +139,7 @@ const saveSettings = () => {
 }
 
 .card-header {
+  color: var(--primary-color-light);
   display: flex;
   align-items: center;
   gap: 0.5rem;

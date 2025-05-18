@@ -76,7 +76,7 @@ const formatTime = (timestamp: number) => {
           @keyup.enter="executeCommand"
         >
           <template #append>
-            <el-button type="primary" @click="executeCommand">执行</el-button>
+            <el-button type="danger" @click="executeCommand">执行</el-button>
           </template>
         </el-input>
       </div>
@@ -192,21 +192,26 @@ const formatTime = (timestamp: number) => {
 }
 
 .command-time {
-  color: var(--el-text-color-secondary);
-  font-size: 0.9rem;
+  font-weight: bolder;
+  font-size: 1rem;
+  color: var(--background-color);
 }
 
 .command-text {
   font-family: monospace;
   font-weight: bold;
+  color: var(--el-color-danger);
+  font-size: larger;
 }
 
 .history-result {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.05);
   padding: 0.5rem;
   border-radius: 4px;
   font-family: monospace;
   white-space: pre-wrap;
+  color: var(--success-color);
+  font-size: larger;
 }
 
 .history-result pre {

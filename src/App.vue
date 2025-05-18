@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import {Connection} from "@element-plus/icons-vue";
+import { useRoute, useRouter } from 'vue-router'
+import { Connection, UserFilled } from "@element-plus/icons-vue";
 
+const route = useRoute();
 const router = useRouter()
-const activeIndex = ref('/')
 
 const handleSelect = (key: string) => {
   router.push(key)
@@ -13,34 +13,37 @@ const handleSelect = (key: string) => {
 
 <template>
   <div class="app-container">
+    <!--    头部-->
     <header class="app-header">
       <div class="header-content">
         <div class="logo-container">
-          <el-icon class="logo-icon"><Connection /></el-icon>
-          <h1 class="logo-text">Redis Web UI</h1>
+          <el-icon class="logo-icon">
+            <Connection />
+          </el-icon>
+          <h1 class="logo-text" @click="router.push('/')">Redis Web UI</h1>
         </div>
-        <el-menu
-          :default-active="activeIndex"
-          class="app-menu"
-          mode="horizontal"
-          @select="handleSelect"
-          background-color="transparent"
-          text-color="#f5f5f5"
-          active-text-color="#e31c3d"
-        >
+        <el-menu :default-active="route.path" class="app-menu" mode="horizontal" @select="handleSelect"
+          background-color="transparent" text-color="#f5f5f5" active-text-color="#e31c3d">
           <el-menu-item index="/">首页</el-menu-item>
           <el-menu-item index="/connections">连接</el-menu-item>
           <el-menu-item index="/browser">浏览器</el-menu-item>
           <el-menu-item index="/workbench">工作台</el-menu-item>
           <el-menu-item index="/settings">设置</el-menu-item>
         </el-menu>
+        <div class="user-avatar" @click="router.push('/profile')">
+
+            <el-avatar src="https://qy-red-book.oss-cn-guangzhou.aliyuncs.com/i/2025/05/17/1.png"/>
+
+        </div>
       </div>
     </header>
-    
+
+    <!--    main 内容区-->
     <main class="app-main">
       <router-view />
     </main>
-    
+
+    <!--    footer-->
     <footer class="app-footer">
       <p>Redis Web UI &copy; {{ new Date().getFullYear() }}</p>
     </footer>
@@ -49,7 +52,8 @@ const handleSelect = (key: string) => {
 
 <style>
 /* 全局样式 */
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -69,28 +73,53 @@ html, body {
 }
 
 .app-header {
+  width: 100%;
   background-color: var(--secondary-background);
   border-bottom: 1px solid var(--border-color);
   height: var(--header-height);
   position: sticky;
   top: 0;
   z-index: 100;
+  display: flex;
+  justify-content: center;
 }
 
 .header-content {
-  max-width: 1400px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  padding: 0 1rem;
+  padding: 0 2rem;
+  box-sizing: border-box;
 }
 
 .logo-container {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  min-width: fit-content;
+}
+
+.app-menu {
+  border-bottom: none;
+  flex: 1;
+  margin: 0 2rem;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.app-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.app-menu {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .logo-icon {
@@ -103,10 +132,32 @@ html, body {
   font-weight: bold;
   color: var(--text-color);
   margin: 0;
+  transition: all 0.1s;
 }
 
-.app-menu {
-  border-bottom: none;
+.logo-text:hover {
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--el-color-primary-light-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.user-avatar:hover {
+  background-color: var(--el-color-primary);
+}
+
+.avatar-icon {
+  font-size: 20px;
+  color: #fff;
 }
 
 .app-main {
